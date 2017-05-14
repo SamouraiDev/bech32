@@ -49,12 +49,12 @@ public class SegwitAddressUtil {
         return Pair.of(witnessVersion, decoded);
     }
 
-    public String encode(byte[] hrp, byte witnessVerion, byte[] witnessProgram) throws Exception    {
+    public String encode(byte[] hrp, byte witnessVersion, byte[] witnessProgram) throws Exception    {
 
         byte[] prog = convertBits(Bytes.asList(witnessProgram), 8, 5, true);
         byte[] data = new byte[1 + prog.length];
 
-        System.arraycopy(new byte[] { witnessVerion }, 0, data, 0, 1);
+        System.arraycopy(new byte[] { witnessVersion }, 0, data, 0, 1);
         System.arraycopy(prog, 0, data, 1, prog.length);
 
         String ret = Bech32Util.getInstance().bech32Encode(hrp, data);
