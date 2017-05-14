@@ -64,6 +64,18 @@ public class SegwitAddressUtil {
         return ret;
     }
 
+    public byte[] getScriptPubkey(byte witver, byte[] witprog) {
+
+        byte v = (witver > 0) ? (byte)(witver + 0x80) : (byte)0;
+        byte[] ver = new byte[] { v, (byte)witprog.length };
+
+        byte[] ret = new byte[witprog.length + ver.length];
+        System.arraycopy(ver, 0, ret, 0, ver.length);
+        System.arraycopy(witprog, 0, ret, ver.length, witprog.length);
+
+        return ret;
+    }
+
     private byte[] convertBits(List<Byte> data, int fromBits, int toBits, boolean pad) throws Exception    {
 
         int acc = 0;
@@ -104,18 +116,6 @@ public class SegwitAddressUtil {
         }
 
         return Bytes.toArray(ret);
-    }
-
-    public byte[] getScriptPubkey(byte witver, byte[] witprog) {
-
-        byte v = (witver > 0) ? (byte)(witver + 0x80) : (byte)0;
-        byte[] ver = new byte[] { v, (byte)witprog.length };
-
-        byte[] ret = new byte[witprog.length + ver.length];
-        System.arraycopy(ver, 0, ret, 0, ver.length);
-        System.arraycopy(witprog, 0, ret, ver.length, witprog.length);
-
-        return ret;
     }
 
 }
