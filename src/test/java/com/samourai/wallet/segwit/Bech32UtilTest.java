@@ -26,6 +26,8 @@ public class Bech32UtilTest {
             new String[] { "BC1SW50QA3JX3S", "6002751e"},
             new String[] { "bc1zw508d6qejxtdg4y5r3zarvaryvg6kdaj", "5210751e76e8199196d454941c45d1b3a323"},
             new String[] { "tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy", "0020000000c4a5cad46221b2a187905e5266362b99d5e91c6ce24d165dab93e86433"},
+            // https://blockchain.info/tx/c23248b87ae5f1533e62d4e5f99ac4373a209a38050ac78b1c84b8b7b8d91b1f
+            new String[] { "bc1qwqdg6squsna38e46795at95yu9atm8azzmyvckulcc7kytlcckxswvvzej", "0020701a8d401c84fb13e6baf169d59684e17abd9fa216c8cc5b9fc63d622ff8c58d"},
     };
 
     // test vectors
