@@ -18,9 +18,12 @@ public class SegwitAddressUtil {
     public Pair<Byte, byte[]> decode(String hrp, String addr) throws Exception {
         Pair<byte[], byte[]> p = Bech32Util.getInstance().bech32Decode(addr);
 
-        byte[] hrpgot = p.getLeft();
-        if (!hrp.equals(new String(hrpgot)))    {
+        String hrpgot = new String(p.getLeft());
+        if (!hrp.equalsIgnoreCase(hrpgot))    {
             throw new Exception("mismatching bech32 human readeable part");
+        }
+        if (!hrpgot.equalsIgnoreCase("bc") && !hrpgot.equalsIgnoreCase("tb"))    {
+            throw new Exception("invalid segwit human readable part");
         }
 
         byte[] data = p.getRight();
