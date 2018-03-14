@@ -1,26 +1,17 @@
 package com.samourai.wallet.segwit;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 public class Bech32Util {
-
     private static final String CHARSET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
 
-    private static Bech32Util instance = null;
+    public static Bech32Util instance = new Bech32Util();
 
-    private Bech32Util()    { ; }
+    private Bech32Util() {}
 
     public static Bech32Util getInstance() {
-
-        if(instance == null)    {
-            instance = new Bech32Util();
-        }
-
         return instance;
     }
 
     public String bech32Encode(byte[] hrp, byte[] data) {
-
         byte[] chk = createChecksum(hrp, data);
         byte[] combined = new byte[chk.length + data.length];
 
@@ -41,7 +32,6 @@ public class Bech32Util {
     }
 
     public Pair<byte[], byte[]> bech32Decode(String bech) throws Exception  {
-
         if(!bech.equals(bech.toLowerCase()) && !bech.equals(bech.toUpperCase()))  {
             throw new Exception("bech32 cannot mix upper and lower case");
         }
@@ -66,9 +56,6 @@ public class Bech32Util {
         }
         else if(bech.length() > 90)    {
             throw new Exception("bech32 input too long");
-        }
-        else    {
-            ;
         }
 
         String s = bech.substring(pos + 1);
@@ -96,7 +83,6 @@ public class Bech32Util {
     }
 
     private int polymod(byte[] values)  {
-
         final int[] GENERATORS = { 0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3 };
 
         int chk = 1;
@@ -113,7 +99,6 @@ public class Bech32Util {
     }
 
     private byte[] hrpExpand(byte[] hrp) {
-
         byte[] buf1 = new byte[hrp.length];
         byte[] buf2 = new byte[hrp.length];
         byte[] mid = new byte[1];
@@ -135,7 +120,6 @@ public class Bech32Util {
     }
 
     private boolean verifyChecksum(byte[] hrp, byte[] data) {
-
         byte[] exp = hrpExpand(hrp);
 
         byte[] values = new byte[exp.length + data.length];
@@ -146,7 +130,6 @@ public class Bech32Util {
     }
 
     private byte[] createChecksum(byte[] hrp, byte[] data)  {
-
         byte[] zeroes = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
         byte[] expanded = hrpExpand(hrp);
         byte[] values = new byte[zeroes.length + expanded.length + data.length];
@@ -163,5 +146,4 @@ public class Bech32Util {
 
         return ret;
     }
-
 }
