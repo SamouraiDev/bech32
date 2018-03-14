@@ -5,10 +5,10 @@
 Classes to be used in Samourai Wallet implementation of Segwit.
 
 ### BIP173:
-Implementation based on [original BIP] (https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) by Pieter Wuille and 
+Implementation based on [original BIP](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) by Pieter Wuille and 
 Greg Maxwell.
 
 ### Tools:
-Segwit address format decoder demo (https://bitcoin.sipa.be/bech32/demo/demo.html).
+Segwit address format decoder [demo](https://bitcoin.sipa.be/bech32/demo/demo.html).
 
-[Alternative implementation] (https://github.com/sipa/bech32/pull/19).
+[Alternative implementation](https://github.com/sipa/bech32/pull/19).

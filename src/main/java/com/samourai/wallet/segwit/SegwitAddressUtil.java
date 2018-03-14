@@ -1,29 +1,21 @@
 package com.samourai.wallet.segwit;
 
 import com.google.common.primitives.Bytes;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SegwitAddressUtil {
+    private static SegwitAddressUtil instance = new SegwitAddressUtil();
 
-    private static SegwitAddressUtil instance = null;
-
-    private SegwitAddressUtil()    { ; }
+    private SegwitAddressUtil() {}
 
     public static SegwitAddressUtil getInstance() {
-
-        if(instance == null)    {
-            instance = new SegwitAddressUtil();
-        }
-
         return instance;
     }
 
     public Pair<Byte, byte[]> decode(String hrp, String addr) throws Exception {
-
         Pair<byte[], byte[]> p = Bech32Util.getInstance().bech32Decode(addr);
 
         byte[] hrpgot = p.getLeft();
@@ -50,22 +42,16 @@ public class SegwitAddressUtil {
     }
 
     public String encode(byte[] hrp, byte witnessVersion, byte[] witnessProgram) throws Exception    {
-
         byte[] prog = convertBits(Bytes.asList(witnessProgram), 8, 5, true);
         byte[] data = new byte[1 + prog.length];
 
         System.arraycopy(new byte[] { witnessVersion }, 0, data, 0, 1);
         System.arraycopy(prog, 0, data, 1, prog.length);
 
-        String ret = Bech32Util.getInstance().bech32Encode(hrp, data);
-
-        assert(Arrays.equals(data, decode(new String(hrp), ret).getRight()));
-
-        return ret;
+        return Bech32Util.getInstance().bech32Encode(hrp, data);
     }
 
     public byte[] getScriptPubkey(byte witver, byte[] witprog) {
-
         byte v = (witver > 0) ? (byte)(witver + 0x50) : (byte)0;
         byte[] ver = new byte[] { v, (byte)witprog.length };
 
@@ -77,24 +63,19 @@ public class SegwitAddressUtil {
     }
 
     private byte[] convertBits(List<Byte> data, int fromBits, int toBits, boolean pad) throws Exception    {
-
         int acc = 0;
         int bits = 0;
         int maxv = (1 << toBits) - 1;
-        List<Byte> ret = new ArrayList<Byte>();
+        List<Byte> ret = new ArrayList<>();
 
         for(Byte value : data)  {
-
-            short b = (short)(value.byteValue() & 0xff);
+            short b = (short)(value & 0xff);
 
             if (b < 0) {
                 throw new Exception();
             }
             else if ((b >> fromBits) > 0) {
                 throw new Exception();
-            }
-            else    {
-                ;
             }
 
             acc = (acc << fromBits) | b;
@@ -111,11 +92,6 @@ public class SegwitAddressUtil {
         else if (bits >= fromBits || (byte)(((acc << (toBits - bits)) & maxv)) != 0)    {
             throw new Exception("panic");
         }
-        else    {
-            ;
-        }
-
         return Bytes.toArray(ret);
     }
-
 }
